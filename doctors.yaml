@@ -1,0 +1,126 @@
+openapi: 3.0.0
+info:
+  title: Doctors API
+  description: An API for managing doctors in a hospital
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+paths:
+  /doctors:
+    get:
+      summary: Get all doctors
+      responses:
+        '200':
+          description: A list of doctors
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Doctor'
+    post:
+      summary: Create a new doctor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Doctor'
+      responses:
+        '200':
+          description: The created doctor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Doctor'
+  /doctors/{id}:
+    get:
+      summary: Get a doctor by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: The doctor with the given ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Doctor'
+        '404':
+          description: The doctor with the given ID was not found
+    put:
+      summary: Update a doctor by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Doctor'
+      responses:
+        '200':
+          description: The updated doctor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Doctor'
+        '404':
+          description: The doctor with the given ID was not found
+    delete:
+      summary: Delete a doctor by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: The deleted doctor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Doctor'
+        '404':
+          description: The doctor with the given ID was not found
+
+components:
+
+  schemas:
+
+    Doctor:
+
+      type: object
+
+      properties:
+
+        id:
+
+          type: integer
+
+        name:
+
+          type: string
+
+        age:
+
+          type: integer
+
+        speciality:
+
+          type: string
+
+        availability:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
