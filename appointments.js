@@ -3,6 +3,9 @@ const app = express();
 const fs = require('fs');
 const bodyParser = require('body-parser');
 
+var errorLang = process.env.API_ERROR_LANG || 'en';
+console.log(errorLang);
+
 app.use(bodyParser.json());
 
 const doctorsFilePath = './doctors.json';
@@ -90,9 +93,21 @@ app.get('/appointments', (req, res) => {
 });
 
 app.get('/appointments/:id', (req, res) => {
+
+    var errorMessage = '';
+    if (errorLang == 'pt') {
+        errorMessage = 'A consulta com o ID fornecido não foi encontrada.';
+    } else {
+        errorMessage = 'The appointment with the given ID was not found.'
+    }
+
     const appointment = appointments.find(a => a.id === parseInt(req.params.id));
-    if (!appointment) return res.status(404).send('The appointment with the given ID was not found.');
+    if (!appointment) return res.status(404).send(errorMessage);
     res.send(appointment);
+
+
+    
+
 });
 
 app.post('/appointments', (req, res) => {
